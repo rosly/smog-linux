@@ -168,6 +168,10 @@
 	};
 };
 
+&ehci0 {
+	status = "okay";
+};
+
 &ehci1 {
 	status = "okay";
 };
@@ -189,6 +193,10 @@
 	status = "okay";
 };
 
+&ohci0 {
+	status = "okay";
+};
+
 &ohci1 {
 	status = "okay";
 };
@@ -197,6 +205,11 @@
 	leds_opc: led_pins@0 {
 		pins = "PA15";
 		function = "gpio_out";
+	};
+
+	usb0_id_detect_pin: usb0_id_detect_pin@0 {
+		pins = "PG12";
+		function = "gpio_in";
 	};
 };
 
@@ -215,6 +228,17 @@
 		pins = "PL6";
 		function = "gpio_out";
 	};
+
+	usb0_vbus_pin_opipc: usb0_vbus_pin@0 {
+		pins = "PL2";
+		function = "gpio_out";
+	};
+};
+
+&reg_usb0_vbus {
+	pinctrl-0 = <&usb0_vbus_pin_opipc>;
+	gpio = <&r_pio 0 2 GPIO_ACTIVE_HIGH>; /* PL2 */
+	status = "okay";
 };
 
 &uart0 {
@@ -241,7 +265,16 @@
 	status = "disabled";
 };
 
-&usbphy {
-	/* USB VBUS is always on */
+&usb_otg {
+	dr_mode = "otg";
 	status = "okay";
+};
+
+&usbphy {
+	/* USB VBUS is always on except for the OTG port */
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb0_id_detect_pin>;
+	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+	usb0_vbus-supply = <&reg_usb0_vbus>;
 };
