@@ -1,0 +1,121 @@
+/*
+ * Copyright (C) 2016 Milo Kim <woogyom.kim@xxxxxxxxx>
+ *
+ * This file is dual-licensed: you can use it either under the terms
+ * of the GPL or the X11 license, at your option. Note that this dual
+ * licensing only applies to this file, and not this project as a
+ * whole.
+ *
+ *  a) This file is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of the
+ *     License, or (at your option) any later version.
+ *
+ *     This file is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ * Or, alternatively,
+ *
+ *  b) Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use,
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+
+#include "sun8i-h3-nanopi.dtsi"
+ 
+/ {
+	model = "FriendlyARM NanoPi NEO / ePC NEO by e-design";
+	compatible = "friendlyarm,nanopi-neo", "allwinner,sun8i-h3";
+	leds {
+		pinctrl-0 = <&leds_npi>, <&leds_r_npi>, <&leds_sys0>, <&leds_sys1>, <&leds_sys2>;
+
+		status {
+			default-state = "off";
+			linux,default-trigger = "none";
+		};
+		pwr {
+			default-state = "off";
+			linux,default-trigger = "none";
+		};
+
+		sys0 {
+			label = "epc:yellow:sys";
+			gpios = <&pio 0 6 GPIO_ACTIVE_LOW>; /*GPIOA6*/
+			linux,default-trigger = "heartbeat";
+		};
+		sys1 {
+			label = "epc:green:sys";
+			gpios = <&pio 6 8 GPIO_ACTIVE_LOW>; /* GPIOG8 */
+			linux,default-trigger = "heartbeat";
+		};
+		sys2 {
+			label = "epc:red:sys";
+			gpios = <&pio 6 9 GPIO_ACTIVE_LOW>; /* GPIOG9 */
+			linux,default-trigger = "heartbeat";
+		};
+
+	};
+};
+
+&pio {
+	leds_sys0: led_pins@0 {
+		allwinner,pins = "PA6";
+		allwinner,function = "gpio_out";
+		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
+		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
+	};
+	leds_sys1: led_pins@0 {
+		allwinner,pins = "PG8";
+		allwinner,function = "gpio_out";
+		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
+		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
+	};
+	leds_sys2: led_pins@0 {
+		allwinner,pins = "PG9";
+		allwinner,function = "gpio_out";
+		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
+		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
+	};
+};
+
+
+&i2c0 {
+	rtc2: rtc@68 { /* the real time clock defined as child of the i2c1 bus */
+		compatible = "dallas,ds1307";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x68>;
+	};
+};
+
+&emac {
+	phy = <&phy1>;
+	phy-mode = "mii";
+	allwinner,use-internal-phy;
+	allwinner,leds-active-low;
+	status = "okay";
+	phy1: ethernet-phy@1 {
+		reg = <1>;
+	};
+};
+
