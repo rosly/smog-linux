@@ -40,8 +40,15 @@
  *     OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * Changelog
+ * 2016.11.12 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * include sun8i-h3-nanopi-neo.dts
+ * 2016.11.10 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * created, LEDs added, RTC via I2C added
+ */
 
-#include "sun8i-h3-nanopi.dtsi"
+#include "sun8i-h3-nanopi-neo.dts"
  
 / {
 	model = "FriendlyARM NanoPi NEO / ePC NEO by e-design";
@@ -61,6 +68,8 @@
 		sys0 {
 			label = "epc:yellow:sys";
 			gpios = <&pio 0 6 GPIO_ACTIVE_LOW>; /*GPIOA6*/
+			//pwms = <&pwm 1 5000000>;
+			max-brightness = <255>;
 			linux,default-trigger = "heartbeat";
 		};
 		sys1 {
@@ -105,17 +114,6 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 		reg = <0x68>;
-	};
-};
-
-&emac {
-	phy = <&phy1>;
-	phy-mode = "mii";
-	allwinner,use-internal-phy;
-	allwinner,leds-active-low;
-	status = "okay";
-	phy1: ethernet-phy@1 {
-		reg = <1>;
 	};
 };
 
