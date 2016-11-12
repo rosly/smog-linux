@@ -40,6 +40,17 @@
  *     OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * Changelog
+ * 2016.11.12 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * include thermal
+ *   * TODO: check for nanopi-neo air hardware and move items from nanopi-neo.dts in here
+ * 2016.11.10 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * heartbeat trigger for LED nanopi:blue:status added
+ *   * I2C added
+ */
+
+
 /dts-v1/;
 #include "sun8i-h3.dtsi"
 #include "sunxi-common-regulators.dtsi"
@@ -47,6 +58,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/pinctrl/sun4i-a10.h>
+#include <dt-bindings/thermal/thermal.h>
 
 / {
 	aliases {
@@ -125,12 +137,14 @@
 		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
 	};
 
+	/*
 	sw_r_npi: key_pins@0 {
 		allwinner,pins = "PL3";
 		allwinner,function = "gpio_in";
 		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
 		allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
 	};
+	*/
 };
 
 &uart0 {
