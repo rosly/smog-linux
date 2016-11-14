@@ -40,6 +40,16 @@
  *     OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * Changelog
+ * 2016.11.12 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * PWM0 & PWM1  added
+ * 2016.11.10 Alexander Krause <alexander.krause at ed-solutions dot de>
+ *   * I2C added
+ *   * UARTs added
+ */
+
+
 #include "skeleton.dtsi"
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -534,6 +544,14 @@
 				allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
 			};
 
+			pwm0_pin: pwm0@0 {
+				/* conflicts with UART0RX */
+				allwinner,pins = "PA5";
+				allwinner,function = "pwm0";
+				allwinner,drive = <SUN4I_PINCTRL_10_MA>;
+				allwinner,pull = <SUN4I_PINCTRL_NO_PULL>;
+			};
+
 			uart0_pins_a: uart0@0 {
 				allwinner,pins = "PA4", "PA5";
 				allwinner,function = "uart0";
@@ -661,6 +679,14 @@
 			clock-names = "ahb", "ths";
 		};
 
+		pwm: pwm@01c21400 {
+			compatible = "allwinner,sun8i-h3-pwm";
+			reg = <0x01c21400 0x8>;
+			clocks = <&osc24M>;
+			#pwm-cells = <3>;
+			status = "disabled";
+		};
+		
 		uart0: serial@01c28000 {
 			compatible = "snps,dw-apb-uart";
 			reg = <0x01c28000 0x400>;
