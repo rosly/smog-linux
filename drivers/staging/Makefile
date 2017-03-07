@@ -3,6 +3,7 @@
 obj-y				+= media/
 obj-$(CONFIG_PRISM2_USB)	+= wlan-ng/
 obj-$(CONFIG_COMEDI)		+= comedi/
+obj-$(CONFIG_CRYPTO_DEV_SUN8I_SS)	+= sun8i-ss/
 obj-$(CONFIG_FB_OLPC_DCON)	+= olpc_dcon/
 obj-$(CONFIG_RTL8192U)		+= rtl8192u/
 obj-$(CONFIG_RTL8192E)		+= rtl8192e/
