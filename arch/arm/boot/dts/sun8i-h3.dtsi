@@ -50,6 +50,11 @@
 / {
 	interrupt-parent = <&gic>;
 
+	aliases {
+		spi0 = &spi0;
+		spi1 = &spi1;
+	};
+
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
