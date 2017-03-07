@@ -12,7 +12,8 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
 	sun8i-h3-usbhost0.dtbo \
 	sun8i-h3-usbhost2.dtbo \
 	sun8i-h3-usbhost3.dtbo \
-	sun8i-h3-w1.dtbo
+	sun8i-h3-w1.dtbo \
+	sun8i-h3-ssd1306-i2c0.dtbo
 
 targets += dtbs dtbs_install
 targets += $(dtbo-y)

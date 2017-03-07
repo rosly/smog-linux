@@ -1,0 +1,38 @@
+/dts-v1/ /plugin/;
+
+/ {
+   compatible = "allwinner,sun8i-h3";
+
+   fragment@0 {
+      target = <&i2c0>;
+      __overlay__ {
+         /* needed to avoid dtc warning */
+         #address-cells = <1>;
+         #size-cells = <0>;
+
+         oled: oled@3c {
+            compatible = "solomon,ssd1306fb-i2c";
+            pinctrl-names = "default";
+            pinctrl-0 = <&oled_opc>;
+            reg = <0x3c>;
+            reset-gpios = <&pio 0 15 0>;
+            reset-active-low;
+            solomon,width = <128>;
+            solomon,height = <64>;
+            solomon,page-offset = <0>;
+            solomon,com-invdir;
+         };
+      };
+   };
+
+   fragment@1 {
+      target = <&pio>;
+      __overlay__ {
+         oled_opc: oled_pins@0 {
+            allwinner,pins = "PA15";
+            allwinner,function = "gpio_out";
+         };
+      };
+   };
+};
+
